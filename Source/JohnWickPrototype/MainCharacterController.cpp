@@ -9,6 +9,7 @@
 
 #include "ShootingGameMode.h"
 #include "TargetableComponent.h"
+#include "DamageableComponent.h"
 #include "MainCharacter.h"
 
 AMainCharacterController::AMainCharacterController()
@@ -39,10 +40,8 @@ void AMainCharacterController::Tick(float DeltaTime)
 		mNextPosition = mCharacter->GetActorLocation();
 		mNextPosition += mCharacter->GetActorForwardVector() * mMovementInput.X * DeltaTime;
 		mNextPosition += mCharacter->GetActorRightVector() * mMovementInput.Y * DeltaTime;
-		//UE_LOG(LogTemp, Log, TEXT("next pos: %f %f %f"), mNextPosition.X, mNextPosition.Y, mNextPosition.Z);
 		mCharacter->SetActorLocation(mNextPosition);
 		FVector actualPos = mCharacter->GetActorLocation();
-		//UE_LOG(LogTemp, Log, TEXT("actual pos: %f %f %f"), actualPos.X, actualPos.Y, actualPos.Z);
 	}
 
 	UpdateTargetables();
@@ -192,17 +191,6 @@ void AMainCharacterController::Shoot()
 			1.0f
 		);
 
-/*
-			const UWorld * InWorld,
-			FVector const & LineStart,
-			FVector const & LineEnd,
-			FColor const & Color,
-			bool bPersistentLines,
-			float LifeTime,
-			uint8 DepthPriority,
-			float Thickness
-		)*/
-
 		FHitResult hitResult;
 		FCollisionObjectQueryParams objectQueryParams
 			{ ECC_TO_BITFIELD(ECC_WorldStatic) | ECC_TO_BITFIELD(ECC_WorldDynamic) };
@@ -213,6 +201,25 @@ void AMainCharacterController::Shoot()
 			objectQueryParams, queryParams);
 
 		UE_LOG(LogTemp, Log, TEXT("shoot hit result: %s"), *(hitResult.ToString()));
+
+		if (hitResult.Actor.IsValid())
+		{
+			auto component = hitResult.Actor->GetComponentByClass(UDamageableComponent::StaticClass());
+
+			if (component)
+			{
+				UDamageableComponent* damageable = static_cast<UDamageableComponent*>(component);
+
+				damageable->GotHit();
+
+				if (damageable->IsDead())
+				{
+					mIsAimed = false;
+					mIsAiming = false;
+					mAimedTarget = nullptr;
+				}
+			}
+		}
 	}
 }
 
