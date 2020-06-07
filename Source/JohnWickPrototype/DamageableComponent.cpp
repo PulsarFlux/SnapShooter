@@ -22,6 +22,7 @@ void UDamageableComponent::BeginPlay()
 
 	// ...
 	
+	miHealth = 50;
 	mbIsDead = false;
 }
 
@@ -36,7 +37,11 @@ void UDamageableComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UDamageableComponent::GotHit()
 {
-	GetOwner()->Destroy();
-
-	mbIsDead = true;
+	mParent->GotHit();
+	miHealth -= 10;
+	if (miHealth <= 0)
+	{
+		GetOwner()->Destroy();
+		mbIsDead = true;
+	}
 }

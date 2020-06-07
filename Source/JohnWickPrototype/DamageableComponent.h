@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Public/IDamageable.h"
 #include "Components/ActorComponent.h"
 #include "DamageableComponent.generated.h"
 
@@ -24,11 +25,15 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void SetParent(IDamageable* damageableParent) { mParent = damageableParent; }
+
 	// Called to indicate the actor with this component has been shot.
 	virtual void GotHit();
 
 	bool IsDead() { return mbIsDead; }
 
 private:
+	IDamageable* mParent;
+	int  miHealth;
 	bool mbIsDead;
 };
