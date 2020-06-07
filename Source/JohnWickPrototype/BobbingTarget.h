@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Public/IDamageable.h"
 #include "BobbingTarget.generated.h"
 
 UCLASS()
-class JOHNWICKPROTOTYPE_API ABobbingTarget : public AActor
+class JOHNWICKPROTOTYPE_API ABobbingTarget : public AActor, public IDamageable
 {
 	GENERATED_BODY()
 
@@ -22,6 +23,17 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void GotHit() override;
+
+	UPROPERTY(EditAnywhere)
+	class UMaterial* mDefaultMaterial;
+	UPROPERTY(EditAnywhere)
+	class UMaterial* mTookDamageMaterial;
 private:
 	float mLastTime;
+
+	float mDisplayDamageTimer;
+
+	class UStaticMeshComponent* mSphereMesh;
 };
