@@ -40,6 +40,8 @@ public:
 
 	float GetShoulderAimOffset() const { return mShoulderAimOffset; }
 
+	FVector GetCameraPos();
+
 	// Horizontal, in degrees
 	float GetFOV() const;
 	float GetAspectRatio() const;

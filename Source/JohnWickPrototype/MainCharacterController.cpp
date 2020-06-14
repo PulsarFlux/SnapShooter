@@ -153,8 +153,7 @@ void AMainCharacterController::Shoot()
 {
 	if (IsAimed())
 	{
-		FVector aimFromPos = mCharacter->GetActorLocation();
-		aimFromPos += mCharacter->GetShoulderAimOffset() * mCharacter->GetActorRightVector();
+		FVector aimFromPos = mCharacter->GetCameraPos();
 
 		float rayLength = 3 * FVector::Dist(mAimedTarget->GetOwner()->GetActorLocation(), aimFromPos);
 

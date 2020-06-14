@@ -56,6 +56,11 @@ AMainCharacter::AMainCharacter()
 	UE_LOG(LogTemp, Warning, TEXT("Constructor"));
 }
 
+FVector AMainCharacter::GetCameraPos()
+{
+	return mCameraSpringArm->GetSocketLocation(USpringArmComponent::SocketName);
+}
+
 // In degrees
 float AMainCharacter::GetFOV() const
 {
