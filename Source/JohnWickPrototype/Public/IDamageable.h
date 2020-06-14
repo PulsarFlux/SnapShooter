@@ -10,8 +10,8 @@
 class JOHNWICKPROTOTYPE_API IDamageable
 {
 public:
-	IDamageable();
-	~IDamageable();
+	IDamageable() = default;
+	~IDamageable() = default;
 
 public:
 	virtual void GotHit() = 0;
