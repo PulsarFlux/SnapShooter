@@ -16,7 +16,6 @@ UTargetableComponent::UTargetableComponent()
 	// ...
 }
 
-
 // Called when the game starts
 void UTargetableComponent::BeginPlay()
 {
@@ -44,5 +43,17 @@ void UTargetableComponent::Update(const FVector& playerPos, const FVector& playe
 	FVector pointToTarget = GetOwner()->GetActorLocation() - playerPos;
 	float targetYaw = pointToTarget.ToOrientationRotator().Yaw;
 	mRelativeYaw = PI * (targetYaw - playerYaw) / 180;
+}
+
+void UTargetableComponent::OnComponentDestroyed(bool bDestroyingHeirarchy)
+{
+	if (GetWorld() && GetWorld()->GetAuthGameMode())
+	{
+		AShootingGameMode* gameMode = Cast<AShootingGameMode>(GetWorld()->GetAuthGameMode());
+		if (gameMode)
+		{
+			gameMode->RemoveTargetableComponentFromList(this);
+		}
+	}
 }
 

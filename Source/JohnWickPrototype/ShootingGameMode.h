@@ -20,6 +20,7 @@ public:
 	AShootingGameMode();
 
 	void AddTargetableComponentToList(UTargetableComponent* component);
+	void RemoveTargetableComponentFromList(UTargetableComponent* component);
 
 	const TArray<UTargetableComponent*>& GetTargetableComponents() { return mTargetableComponents; }
 

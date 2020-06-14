@@ -19,3 +19,12 @@ void AShootingGameMode::AddTargetableComponentToList(UTargetableComponent* compo
 {
 	mTargetableComponents.Add(component);
 }
+
+void AShootingGameMode::RemoveTargetableComponentFromList(UTargetableComponent* component)
+{
+	if (mTargetableComponents.Contains(component))
+	{
+		UE_LOG(LogTemp, Log, TEXT("contains"));
+		mTargetableComponents.Remove(component);
+	}
+}

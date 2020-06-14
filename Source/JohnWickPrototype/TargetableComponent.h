@@ -31,6 +31,8 @@ public:
 
 	float GetTargetSize() const { return mTargetSize; }
 
+	void OnComponentDestroyed(bool bDestroyingHeirarchy) override;
+
 private:
 	float mRelativeYaw;
 	UPROPERTY(EditAnywhere)
